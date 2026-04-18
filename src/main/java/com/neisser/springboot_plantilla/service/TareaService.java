@@ -1,56 +1,71 @@
 package com.neisser.springboot_plantilla.service;
 
+import com.neisser.springboot_plantilla.dto.TareaMapper;
+import com.neisser.springboot_plantilla.dto.TareaRequestDTO;
+import com.neisser.springboot_plantilla.dto.TareaResponseDTO;
+import com.neisser.springboot_plantilla.exception.TareaNotFoundException;
 import com.neisser.springboot_plantilla.model.Tarea;
 import com.neisser.springboot_plantilla.repository.TareaRepository;
-import org.jetbrains.annotations.NotNull;
+
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
 @Service
+@RequiredArgsConstructor
 public class TareaService {
     private final TareaRepository repositorio;
+    private final TareaMapper mapper;
 
-    public TareaService(final TareaRepository repositorio) {
-        this.repositorio = repositorio;
+    @Transactional(readOnly = true)
+    public Page<TareaResponseDTO> verTodasLasTareas(Pageable pageable) {
+        return repositorio.findAll(pageable)
+                .map(mapper::toResponseDTO);
     }
 
     @Transactional(readOnly = true)
-    public List<Tarea> verTodasLasTareas() {
-        return repositorio.findAll();
-    }
+    public TareaResponseDTO buscarPorID(Long id) {
+        return repositorio.findById(id).map(mapper::toResponseDTO)
+                .orElseThrow(() -> new TareaNotFoundException("Tarea no encontrada con ID: " + id));
 
-    @Transactional(readOnly = true)
-    public Tarea buscarPorID(Long id) {
-        return repositorio.findById(id).orElse(null);
     }
 
     @Transactional
-    public Tarea crearTarea(Tarea tarea){
-        return repositorio.save(tarea);
+    public TareaResponseDTO crearTarea(TareaRequestDTO tarea) {
+        Tarea nuevaTarea = repositorio.save(mapper.toEntity(tarea));
+        return mapper.toResponseDTO(nuevaTarea);
     }
 
     @Transactional
-    public Tarea actualizarTarea(Long id, Tarea tarea){
-        Tarea existente=buscarPorID(id);
+    public TareaResponseDTO actualizarTarea(Long id, TareaRequestDTO tarea) {
+
+        Tarea existente = repositorio.findById(id)
+                .orElseThrow(() -> new TareaNotFoundException("Tarea no encontrada con ID: " + id));
+
         existente.setTitulo(tarea.getTitulo());
         existente.setDescripcion(tarea.getDescripcion());
-        existente.setCompletada(tarea.isCompletada());
-        return repositorio.save(existente);
+
+        return mapper.toResponseDTO(existente);
     }
 
     @Transactional
-    public Tarea marcarComoCompletada(Long id){
-        Tarea tarea=buscarPorID(id);
-        tarea.setCompletada(true);
-        return repositorio.save(tarea);
+    public TareaResponseDTO marcarComoCompletada(Long id) {
+        Tarea existente = repositorio.findById(id)
+                .orElseThrow(() -> new TareaNotFoundException("Tarea no encontrada con ID: " + id));
+
+        existente.setCompletada(true);
+
+        return mapper.toResponseDTO(existente);
     }
 
     @Transactional
-    public void eliminar(Long id){
-        repositorio.deleteById(id);
+    public void eliminar(Long id) {
+        Tarea tarea = repositorio.findById(id)
+                .orElseThrow(() -> new TareaNotFoundException("Tarea no encontrada con ID: " + id));
+
+        repositorio.delete(tarea);
     }
 }
