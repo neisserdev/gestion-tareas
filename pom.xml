@@ -8,11 +8,11 @@
 		<version>4.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.neisser</groupId>
-	<artifactId>springboot-plantilla</artifactId>
+	<groupId>com.tareas</groupId>
+	<artifactId>tareas-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>springboot-plantilla</name>
-	<description>Demo project for Spring Boot</description>
+	<name>Tareas API</name>
+	<description>API RESTful para gestión de tareas</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -145,6 +145,19 @@
                 </excludes>
             </configuration>
         </plugin>
+
+		 <plugin>
+            <groupId>org.openrewrite.maven</groupId>
+            <artifactId>rewrite-maven-plugin</artifactId>
+            <version>6.38.0</version>
+            <configuration>
+                <activeRecipes>
+                    <recipe>com.tareas.api.ChangePackageRecipe</recipe>
+                </activeRecipes>
+                <configLocation>${maven.multiModuleProjectDirectory}/rewrite.yml</configLocation>
+            </configuration>
+        </plugin>
+		
     </plugins>
 </build>
 </project>
