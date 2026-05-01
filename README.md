@@ -1,6 +1,6 @@
 # 🗂️ Sistema de Gestión de Tareas
 
-API REST desarrollada con **Spring Boot 4** (v4.0.5) para la gestión de tareas con PostgreSQL, validación, paginación y documentación OpenAPI.
+API REST desarrollada con **Spring Boot 4** (v4.0.6) para la gestión de tareas con PostgreSQL, validación, paginación y documentación OpenAPI.
 
 ## 🛠️ Tecnologías
 
