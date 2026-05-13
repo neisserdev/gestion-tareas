@@ -2,7 +2,6 @@ package com.tareas.api.exception;
 
 import org.springframework.http.HttpStatus;
 
-// ErrorCode.java
 public enum ErrorCode {
 
     // 4xx

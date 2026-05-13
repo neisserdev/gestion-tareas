@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.http.ProblemDetail;
 
-// ProblemDetailFactory.java
 public final class ProblemDetailFactory {
 
     private static final String BASE_TYPE = "https://api.neisser.dev/problems/";

@@ -1,5 +1,5 @@
-# Etapa 1: Construcción con Maven + JDK 21
-FROM maven:3.9.9-eclipse-temurin-21 AS builder
+# Etapa 1: Construcción con Maven + JDK 25
+FROM maven:3.9.9-eclipse-temurin-25 AS builder
 WORKDIR /app
 
 # Copia pom.xml primero para cachear dependencias
@@ -12,8 +12,8 @@ COPY src ./src
 # Compila el proyecto sin ejecutar tests
 RUN mvn clean package -DskipTests
 
-# Etapa 2: Ejecución con JRE 21
-FROM eclipse-temurin:21-jre-jammy
+# Etapa 2: Ejecución con JRE 25
+FROM eclipse-temurin:25-jre-jammy
 WORKDIR /app
 
 # Copia el JAR compilado desde la etapa builder

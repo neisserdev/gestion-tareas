@@ -4,11 +4,11 @@ API REST desarrollada con **Spring Boot 4** (v4.0.6) para la gestión de tareas 
 
 ## 🛠️ Tecnologías
 
-- **Java 17** + **Spring Boot 4**
+- **Java 25** + **Spring Boot 4**
 - **Spring Data JPA** - Persistencia de datos
 - **PostgreSQL** - Base de datos
 - **Spring Validation** - Validación de requests
-- **Spring Cache + Caffeine** - Cacheo de respuestas GET
+- **Spring Cache + Caffeine** - Cacheo de respuestas GET (10 min, 100 entries max)
 - **Springdoc OpenAPI (Swagger UI)** - Documentación de la API
 - **Spring Boot Actuator** - Endpoints de monitoreo
 - **MapStruct** - Mapeo Entity ⇄ DTO
